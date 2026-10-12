@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}ComicCraft — Where Imagination Becomes a Comic{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">✨ AI-POWERED GRAPHIC NOVEL ENGINE</div>
+      <h1 class="hero-title">
+        Your imagination.<br>
+        <span>One prompt away.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Turn raw ideas into beautifully illustrated 5-panel comic books complete with dramatic narrative arcs, witty character dialogue, speech bubbles, and instant printable PDF exports.
+      </p>
+      
+      <div class="hero-cta-group">
+        <a href="/studio" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.9rem 1.8rem;">
+          🚀 Create Your Comic
+        </a>
+        <a href="#how-it-works" class="btn btn-secondary">
+          How It Works
+        </a>
+      </div>
+
+      <!-- Engine Status & Honest Fallback Banner -->
+      <div style="margin-top: 2rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem;">
+        {% if is_ai_live %}
+          <span class="badge badge-live">● Live AI Engine</span>
+          <span style="color: var(--text-muted);">Connected to Google Gemini &amp; Image Inference</span>
+        {% else %}
+          <span class="badge badge-demo">● Offline Demo Engine</span>
+          <span style="color: var(--text-muted);">Running in deterministic offline mode (No API keys required)</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Hero Comic Visual Showcase -->
+    <div class="hero-visual">
+      <div class="hero-comic-card">
+        <div style="font-weight: 800; font-size: 0.9rem; margin-bottom: 0.6rem; display: flex; justify-content: space-between;">
+          <span>PANEL 1 • THE ENCHANTED FOREST</span>
+          <span style="color: var(--accent-red);">ISSUE #01</span>
+        </div>
+        <!-- Visual illustration mockup -->
+        <div style="height: 260px; background: linear-gradient(135deg, #1A1A24 0%, #302B63 50%, #24243E 100%); border: 2.5px solid var(--border-dark); border-radius: var(--radius-sm); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+          <div style="position: absolute; width: 140px; height: 140px; border-radius: 50%; background: #FF3B30; filter: blur(30px); opacity: 0.5;"></div>
+          <div style="text-align: center; z-index: 2; color: #FFF;">
+            <div style="font-family: var(--font-display); font-size: 2.5rem; letter-spacing: 2px; text-shadow: 2px 2px 0px #000;">THE SENTRY</div>
+            <div style="font-size: 0.85rem; font-weight: 600; opacity: 0.9;">"The forest whispered... but Arthur was ready."</div>
+          </div>
+        </div>
+        
+        <div class="speech-bubble hero-bubble">
+          "No turning back now!"
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" style="background: var(--bg-surface); border-top: 3px solid var(--border-dark); border-bottom: 3px solid var(--border-dark); padding: 4.5rem 2rem;">
+  <div style="max-width: 1240px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 3.5rem;">
+      <h2 style="font-size: 2.2rem; font-weight: 900; letter-spacing: -0.5px;">HOW COMICCRAFT WORKS</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">From natural language prompt to a multi-page illustrated comic in three intuitive steps.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+      <!-- Step 1 -->
+      <div style="background: var(--bg-surface-soft); border: 2.5px solid var(--border-dark); box-shadow: var(--shadow-comic); border-radius: var(--radius-md); padding: 2rem;">
+        <div style="width: 48px; height: 48px; background: var(--accent-red); color: #FFF; font-weight: 900; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border-dark); border-radius: 8px; margin-bottom: 1.2rem;">1</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.6rem;">Describe Your Vision</h3>
+        <p style="font-size: 0.92rem; color: var(--text-muted);">
+          Enter a story idea, hero name, setting, and tone. Select from rich art styles including Classic Comic Book, Anime, Watercolor, and Cartoon.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div style="background: var(--bg-surface-soft); border: 2.5px solid var(--border-dark); box-shadow: var(--shadow-comic); border-radius: var(--radius-md); padding: 2rem;">
+        <div style="width: 48px; height: 48px; background: var(--accent-blue); color: #FFF; font-weight: 900; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border-dark); border-radius: 8px; margin-bottom: 1.2rem;">2</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.6rem;">Multi-Stage AI Pipeline</h3>
+        <p style="font-size: 0.92rem; color: var(--text-muted);">
+          Google Gemini drafts a 5-panel story arc, writes snappy dialogue and ambient captions, while the image generator illustrates each panel sequentially.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div style="background: var(--bg-surface-soft); border: 2.5px solid var(--border-dark); box-shadow: var(--shadow-comic); border-radius: var(--radius-md); padding: 2rem;">
+        <div style="width: 48px; height: 48px; background: var(--accent-yellow); color: var(--text-primary); font-weight: 900; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border-dark); border-radius: 8px; margin-bottom: 1.2rem;">3</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.6rem;">Read &amp; Export PDF</h3>
+        <p style="font-size: 0.92rem; color: var(--text-muted);">
+          Immerse yourself in the digital comic reader with speech bubbles and panel regenerations, or download a publisher-ready PDF with a single click.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase Section -->
+<section id="examples" style="padding: 4.5rem 2rem; max-width: 1240px; margin: 0 auto;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h2 style="font-size: 2.2rem; font-weight: 900; letter-spacing: -0.5px;">RECENT COMIC STORIES</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">Explore comics created by the ComicCraft engine.</p>
+    </div>
+    <a href="/studio" class="btn btn-primary">Start New Story</a>
+  </div>
+
+  {% if recent_comics %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.8rem;">
+      {% for comic in recent_comics %}
+        <div class="comic-panel-card" style="margin-bottom: 0;">
+          <div class="comic-panel-topbar">
+            <span style="font-weight: 800; font-size: 0.95rem;">{{ comic.title }}</span>
+            <span class="badge {{ 'badge-live' if comic.generation_mode == 'ai_live' else 'badge-demo' }}" style="font-size: 0.7rem; padding: 2px 6px;">
+              {{ comic.generation_mode }}
+            </span>
+          </div>
+          <div style="padding: 1.2rem;">
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">
+              "{{ comic.prompt[:110] }}{% if comic.prompt|length > 110 %}...{% endif %}"
+            </p>
+            <div style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">
+              Hero: <strong>{{ comic.character_name }}</strong> • Tone: <strong>{{ comic.tone }}</strong>
+            </div>
+            <a href="/comic/{{ comic.id }}" class="btn btn-secondary" style="width: 100%; font-size: 0.85rem; padding: 0.6rem;">
+              Read Comic →
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div style="background: var(--bg-surface); border: 2.5px dashed var(--border-dark); border-radius: var(--radius-md); padding: 3rem; text-align: center;">
+      <h3 style="font-weight: 800; font-size: 1.3rem; margin-bottom: 0.5rem;">No Comics Created Yet</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Be the very first creator to forge an illustrated comic book today!</p>
+      <a href="/studio" class="btn btn-primary">Launch Comic Studio</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Comic Studio — ComicCraft{% endblock %}
+
+{% block content %}
+<div class="workspace-container">
+  
+  <!-- Left Column: Story Configuration -->
+  <div class="workspace-panel">
+    <div class="panel-header">
+      <h2>🎨 Story Configuration</h2>
+      <span class="badge {{ 'badge-live' if is_ai_live else 'badge-demo' }}">
+        {{ '✨ AI Ready' if is_ai_live else '🎭 Demo Mode' }}
+      </span>
+    </div>
+
+    <form action="/generate" method="POST" id="comic-form">
+      
+      <!-- Story Prompt -->
+      <div class="form-group">
+        <label class="form-label" for="story-prompt-input">
+          Story Idea / Scenario <span class="req">*</span>
+        </label>
+        <textarea 
+          name="prompt" 
+          id="story-prompt-input" 
+          class="form-control" 
+          placeholder="e.g. A brave young detective discovers a hidden cybernetic portal beneath the old clock tower..."
+          required
+        >A brave fox exploring an enchanted forest filled with glowing ancient ruins and mysterious guardian spirits.</textarea>
+      </div>
+
+      <!-- Main Character Name & Appearance -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label class="form-label" for="character_name">
+            Main Character Name <span class="req">*</span>
+          </label>
+          <input 
+            type="text" 
+            name="character_name" 
+            id="character_name" 
+            class="form-control" 
+            value="Free" 
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="character_appearance">
+            Appearance / Costume (Consistency)
+          </label>
+          <input 
+            type="text" 
+            name="character_appearance" 
+            id="character_appearance" 
+            class="form-control" 
+            value="Bright red fur, intelligent amber eyes, wearing a weathered scout scarf"
+          >
+        </div>
+      </div>
+
+      <!-- Setting Selector (Cards) -->
+      <div class="form-group">
+        <label class="form-label">Setting / World</label>
+        <input type="hidden" name="setting" id="input-setting" value="Enchanted Forest">
+        <div class="card-selector-grid card-group-setting">
+          <div class="selectable-card selected" data-value="Enchanted Forest">
+            <div class="card-icon">🌲</div>
+            <div class="card-title">Enchanted Forest</div>
+          </div>
+          <div class="selectable-card" data-value="Modern City">
+            <div class="card-icon">🏙️</div>
+            <div class="card-title">Modern City</div>
+          </div>
+          <div class="selectable-card" data-value="Cyberpunk Metropolis">
+            <div class="card-icon">🌆</div>
+            <div class="card-title">Cyberpunk</div>
+          </div>
+          <div class="selectable-card" data-value="Deep Space">
+            <div class="card-icon">🚀</div>
+            <div class="card-title">Deep Space</div>
+          </div>
+          <div class="selectable-card" data-value="Historical Kingdom">
+            <div class="card-icon">🏰</div>
+            <div class="card-title">Historical</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tone Selector (Cards) -->
+      <div class="form-group">
+        <label class="form-label">Story Tone</label>
+        <input type="hidden" name="tone" id="input-tone" value="Dramatic">
+        <div class="card-selector-grid card-group-tone">
+          <div class="selectable-card selected" data-value="Dramatic">
+            <div class="card-icon">⚡</div>
+            <div class="card-title">Dramatic</div>
+          </div>
+          <div class="selectable-card" data-value="Adventure">
+            <div class="card-icon">🧭</div>
+            <div class="card-title">Adventure</div>
+          </div>
+          <div class="selectable-card" data-value="Funny">
+            <div class="card-icon">😄</div>
+            <div class="card-title">Funny</div>
+          </div>
+          <div class="selectable-card" data-value="Mystery">
+            <div class="card-icon">🔍</div>
+            <div class="card-title">Mystery</div>
+          </div>
+          <div class="selectable-card" data-value="Heartwarming">
+            <div class="card-icon">❤️</div>
+            <div class="card-title">Heartwarming</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Art Style Selector (Cards) -->
+      <div class="form-group">
+        <label class="form-label">Art Style</label>
+        <input type="hidden" name="style" id="input-style" value="Classic Comic Book">
+        <div class="card-selector-grid card-group-style">
+          <div class="selectable-card selected" data-value="Classic Comic Book">
+            <div class="card-icon">💥</div>
+            <div class="card-title">Comic Book</div>
+          </div>
+          <div class="selectable-card" data-value="Anime">
+            <div class="card-icon">✨</div>
+            <div class="card-title">Anime / Manga</div>
+          </div>
+          <div class="selectable-card" data-value="Cartoon">
+            <div class="card-icon">🎨</div>
+            <div class="card-title">Cartoon</div>
+          </div>
+          <div class="selectable-card" data-value="Watercolor">
+            <div class="card-icon">🖌️</div>
+            <div class="card-title">Watercolor</div>
+          </div>
+          <div class="selectable-card" data-value="Pixel Art">
+            <div class="card-icon">👾</div>
+            <div class="card-title">Pixel Art</div>
+          </div>
+          <div class="selectable-card" data-value="Realistic Illustration">
+            <div class="card-icon">📸</div>
+            <div class="card-title">Realistic</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Number of Panels -->
+      <div class="form-group">
+        <label class="form-label" for="panel_count">Number of Panels</label>
+        <select name="panel_count" id="panel_count" class="form-control" style="max-width: 200px;">
+          <option value="3">3 Panels (Quick Strip)</option>
+          <option value="5" selected>5 Panels (Standard Arc)</option>
+          <option value="6">6 Panels (Extended Page)</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div style="margin-top: 2rem;">
+        <button type="submit" id="btn-submit-comic" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 0.95rem;">
+          ⚡ Generate My Comic
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Right Column: Creative Live Preview & Overview -->
+  <div class="workspace-panel">
+    <div class="panel-header">
+      <h2>👀 Creative Preview</h2>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-light);">REAL-TIME SPEC</span>
+    </div>
+
+    <!-- Preview Card -->
+    <div style="background: var(--bg-surface-soft); border: 2.5px solid var(--border-dark); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 800; color: var(--accent-red); margin-bottom: 0.4rem;">
+        Active Story Concept
+      </div>
+      <p id="preview-story-text" style="font-size: 0.95rem; font-weight: 600; line-height: 1.5; color: var(--text-primary); margin-bottom: 1rem;">
+        A brave fox exploring an enchanted forest filled with glowing ancient ruins and mysterious guardian spirits.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.85rem; border-top: 1.5px solid var(--border-subtle); padding-top: 0.8rem;">
+        <div>
+          <span style="color: var(--text-light);">Setting:</span> 
+          <strong id="preview-setting">Enchanted Forest</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-light);">Tone:</span> 
+          <strong id="preview-tone">Dramatic</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-light);">Art Style:</span> 
+          <strong id="preview-style">Classic Comic Book</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-light);">Layout:</span> 
+          <strong>5 Narrative Panels</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- What You Receive Box -->
+    <div style="background: var(--bg-surface); border: 2px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 1.2rem; margin-bottom: 1.5rem;">
+      <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 0.6rem;">What ComicCraft Generates:</h4>
+      <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+        <li>A structured 5-panel story progression (Setup &rarr; Conflict &rarr; Resolution)</li>
+        <li>Evocative scene captions and character dialogue with speech bubbles</li>
+        <li>Individual high-resolution illustrations customized to your chosen art style</li>
+        <li>Print-ready, downloadable PDF comic book with custom cover</li>
+      </ul>
+    </div>
+
+    <!-- Provider Transparency Notice -->
+    <div style="background: #FFF8E1; border: 1.5px solid #FFE082; border-radius: var(--radius-sm); padding: 1rem; font-size: 0.82rem; color: #5D4037;">
+      <strong>Provider Info:</strong> 
+      Story: <code>{{ story_provider }}</code> | 
+      Images: <code>{{ image_provider }}</code>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

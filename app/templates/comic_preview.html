@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}{{ comic.title }} — Comic Preview | ComicCraft{% endblock %}
+
+{% block content %}
+<div class="reader-container">
+
+  <!-- Generation Status Box (if still processing) -->
+  {% if comic.status != 'completed' %}
+  <div id="generation-status-box" data-comic-id="{{ comic.id }}" class="progress-card" style="margin-bottom: 2rem;">
+    <div class="progress-header">
+      <span id="current-stage-text">⚡ {{ comic.current_stage }}</span>
+      <span id="stage-percent-text">{{ comic.stage_percent }}%</span>
+    </div>
+    
+    <div class="progress-bar-bg">
+      <div id="progress-bar-fill" class="progress-bar-fill" style="width: {{ comic.stage_percent }}%;"></div>
+    </div>
+
+    <ul class="progress-steps">
+      <li class="progress-step-item {{ 'completed' if comic.stage_percent > 20 else ('active' if comic.stage_percent >= 10 else '') }}">
+        1. Understanding the story idea
+      </li>
+      <li class="progress-step-item {{ 'completed' if comic.stage_percent > 40 else ('active' if comic.stage_percent >= 25 else '') }}">
+        2. Creating the panel outline
+      </li>
+      <li class="progress-step-item {{ 'completed' if comic.stage_percent > 60 else ('active' if comic.stage_percent >= 45 else '') }}">
+        3. Writing narration and character dialogue
+      </li>
+      <li class="progress-step-item {{ 'completed' if comic.stage_percent > 85 else ('active' if comic.stage_percent >= 60 else '') }}">
+        4. Illustrating comic panels
+      </li>
+      <li class="progress-step-item {{ 'completed' if comic.stage_percent == 100 else ('active' if comic.stage_percent >= 85 else '') }}">
+        5. Assembling the final comic &amp; compiling PDF
+      </li>
+    </ul>
+
+    {% if comic.error_message %}
+      <div style="margin-top: 1rem; color: var(--accent-red); font-weight: 700; font-size: 0.9rem;">
+        Error: {{ comic.error_message }}
+      </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- Comic Reader Header Banner -->
+  <div class="comic-reader-header">
+    <div>
+      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+        <h1 style="font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px;">{{ comic.title }}</h1>
+        <span class="badge {{ 'badge-live' if comic.generation_mode == 'ai_live' else 'badge-demo' }}">
+          {{ '✨ AI Live' if comic.generation_mode == 'ai_live' else '🎭 Demo Mode' }}
+        </span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 650px;">
+        Hero: <strong>{{ comic.character_name }}</strong> • Setting: <strong>{{ comic.setting }}</strong> • Tone: <strong>{{ comic.tone }}</strong> • Style: <strong>{{ comic.art_style }}</strong>
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+      {% if comic.pdf_path %}
+        <a href="/api/comics/{{ comic.id }}/pdf" class="btn btn-accent" download>
+          📄 Download Comic PDF
+        </a>
+      {% endif %}
+      <a href="/studio" class="btn btn-secondary">
+        + Create Another Comic
+      </a>
+    </div>
+  </div>
+
+  <!-- Comic Panels Stream -->
+  {% if panels %}
+    {% for panel in panels %}
+      <div class="comic-panel-card" id="panel-card-{{ panel.id }}">
+        <div class="comic-panel-topbar">
+          <span class="panel-title-text">{{ panel.title }}</span>
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <button class="btn btn-secondary btn-regen-panel" data-comic-id="{{ comic.id }}" data-panel-id="{{ panel.id }}" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">
+              🔄 Regenerate Panel
+            </button>
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-light);">PANEL {{ panel.panel_number }} / {{ comic.panel_count }}</span>
+          </div>
+        </div>
+
+        <div class="comic-panel-body">
+          <!-- Illustration -->
+          <div class="panel-image-wrap">
+            <img 
+              id="panel-img-{{ panel.id }}" 
+              src="{{ panel.image_path }}" 
+              alt="{{ panel.title }}"
+              loading="lazy"
+            >
+          </div>
+
+          <!-- Story Text, Captions & Speech Bubbles -->
+          <div>
+            {% if panel.caption %}
+              <div class="caption-box">
+                {{ panel.caption }}
+              </div>
+            {% endif %}
+
+            {% if panel.dialogue %}
+              <div class="speech-bubble">
+                <div class="speech-speaker">{{ comic.character_name }}</div>
+                <div class="speech-text">{{ panel.dialogue }}</div>
+              </div>
+            {% endif %}
+
+            {% if panel.narration %}
+              <div class="narration-box">
+                {{ panel.narration }}
+              </div>
+            {% endif %}
+
+            {% if panel.scene_description %}
+              <div class="scene-note">
+                <strong>Atmosphere:</strong> {{ panel.scene_description }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <!-- Bottom Action Bar -->
+    <div style="background: var(--bg-surface); border: 3px solid var(--border-dark); box-shadow: var(--shadow-comic); border-radius: var(--radius-md); padding: 2rem; text-align: center; margin-top: 3rem;">
+      <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.6rem;">Enjoyed This Story?</h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Download the high-resolution multi-page PDF or dive back into the studio to craft your next epic adventure.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        {% if comic.pdf_path %}
+          <a href="/api/comics/{{ comic.id }}/pdf" class="btn btn-accent" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;" download>
+            📄 Download Comic PDF
+          </a>
+        {% endif %}
+        <a href="/studio" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+          🚀 Create Another Comic
+        </a>
+      </div>
+    </div>
+
+  {% elif comic.status == 'completed' and not panels %}
+    <div style="background: var(--bg-surface); border: 2.5px solid var(--border-dark); border-radius: var(--radius-md); padding: 3rem; text-align: center;">
+      <h3>No panels generated for this comic.</h3>
+      <a href="/studio" class="btn btn-primary" style="margin-top: 1rem;">Back to Studio</a>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

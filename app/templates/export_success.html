@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Comic Exported Successfully — ComicCraft{% endblock %}
+
+{% block content %}
+<div style="max-width: 680px; margin: 4rem auto; padding: 0 1.5rem;">
+  <div style="background: var(--bg-surface); border: 3.5px solid var(--border-dark); box-shadow: var(--shadow-comic-lg); border-radius: var(--radius-md); padding: 3rem 2rem; text-align: center;">
+    
+    <div style="width: 72px; height: 72px; background: #E8F5E9; color: #2E7D32; font-size: 2.2rem; border-radius: 50%; border: 3px solid #2E7D32; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+      ✓
+    </div>
+
+    <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.6rem; letter-spacing: -0.5px;">
+      Comic Exported Successfully!
+    </h1>
+    
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2rem;">
+      Your comic <strong>"{{ comic_title }}"</strong> has been compiled into a professional multi-page PDF ready for reading, printing, or sharing.
+    </p>
+
+    {% if pdf_path %}
+    <div style="margin-bottom: 2.5rem;">
+      <a href="{{ pdf_path }}" class="btn btn-accent" style="font-size: 1.1rem; padding: 0.95rem 2rem;" download>
+        📥 Download Comic PDF Now
+      </a>
+    </div>
+    {% endif %}
+
+    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; border-top: 2px solid var(--border-subtle); padding-top: 1.8rem;">
+      <a href="/studio" class="btn btn-primary">
+        🚀 Create Another Comic
+      </a>
+      <a href="/" class="btn btn-secondary">
+        Return Home
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

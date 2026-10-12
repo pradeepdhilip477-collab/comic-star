@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ComicCraft — Where Imagination Becomes a Comic{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-halftone">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-logo">
+        <span class="logo-badge">COMIC</span>
+        <span class="brand-text">CRAFT</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/studio" class="nav-link">Studio</a></li>
+        <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="/#examples" class="nav-link">Showcase</a></li>
+        <li>
+          <a href="/studio" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.88rem;">
+            Create Comic
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span class="logo-badge" style="font-size: 1.1rem; padding: 1px 6px;">COMIC</span>
+          <span style="font-weight: 800; font-size: 1.1rem;">CRAFT</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 400px;">
+          Empowering imagination through AI-driven storytelling, vivid comic-book illustration, and professional PDF publishing.
+        </p>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--text-light); text-align: right;">
+        <p>Built with FastAPI &amp; Google Gemini AI Models</p>
+        <p style="margin-top: 0.3rem;">&copy; 2026 ComicCraft Studio. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+.env
+.pytest_cache/
+tests/.pytest_cache/
+
+# Storage
+app/static/panels/*
+!app/static/panels/.gitkeep
+app/static/exports/*
+!app/static/exports/.gitkeep
+
+# Environments
+env/
+venv/
+comiccraft-env/
